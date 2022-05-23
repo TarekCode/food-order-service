@@ -4,6 +4,7 @@ namespace food_order_service.Data_layer.DataModels
 {
     public class ItemModification : DbObject
     {
+        [Required]
         public ItemOption? ItemOption { get; set; }
 
         [MaxLength(10)]
