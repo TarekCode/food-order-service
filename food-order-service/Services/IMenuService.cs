@@ -1,0 +1,9 @@
+﻿using food_order_service.Data_layer.DataModels;
+
+namespace food_order_service.Services
+{
+    public interface IMenuService
+    {
+        Task<MenuItem> GetMenuItem(int id);
+    }
+}

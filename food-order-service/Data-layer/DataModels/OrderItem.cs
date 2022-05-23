@@ -6,12 +6,13 @@ namespace food_order_service.Data_layer.DataModels
     {
         [Required]
         public MenuItem? MenuItem { get; set; }
-        public IEnumerable<ItemModification> ItemModifications { get; set; } = Enumerable.Empty<ItemModification>();
+        public ICollection<ItemModification>? ItemModifications { get; set; }
+
         public decimal Cost
         {
             get
             {
-                if (MenuItem != null)
+                if (MenuItem != null && ItemModifications != null)
                 {
                     return ItemModifications.Sum(x => x.ModificationCost) + MenuItem.Price;
                 }

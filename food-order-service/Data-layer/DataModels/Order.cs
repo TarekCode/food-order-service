@@ -10,12 +10,18 @@ namespace food_order_service.Data_layer.DataModels
         [MaxLength(24)]
         [MinLength(7)]
         public string PhoneNumber { get; set; } = string.Empty;
-        public IEnumerable<OrderItem> OrderItems { get; set; } = Enumerable.Empty<OrderItem>();
+        public ICollection<OrderItem>? OrderItems { get; set; }
+
         public decimal OrderTotal
         {
             get
             {
-                return OrderItems.Sum(x => x.Cost);
+                if (OrderItems != null)
+                {
+                    return OrderItems.Sum(x => x.Cost);
+                }
+
+                return 0;
             }
 
             private set { }
