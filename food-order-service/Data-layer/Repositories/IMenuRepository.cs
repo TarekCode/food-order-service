@@ -5,6 +5,7 @@ namespace food_order_service.Data_layer.Repositories
     public interface IMenuRepository
     {
         Task<MenuItem?> GetById(int id);
-        Task<IEnumerable<MenuItem?>> GetAll();
+        Task<IEnumerable<MenuItem>> GetAll();
+        Task SaveMenuItem(MenuItem menuItem);
     }
 }
