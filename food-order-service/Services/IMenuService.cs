@@ -8,5 +8,6 @@ namespace food_order_service.Services
         Task<MenuItem> GetMenuItem(int id);
         Task<IEnumerable<MenuItem>> GetAllMenuItems();
         Task AddOrUpdateMenuItem(MenuItemRequest menuItemRequest);
+        Task DeleteMenuItem(int id);
     }
 }

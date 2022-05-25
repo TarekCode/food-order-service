@@ -71,11 +71,12 @@ namespace food_order_service.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<MenuItem>> DeleteItem(int id)
+        public async Task<ActionResult> DeleteItem(int id)
         {
             try
             {
-                return await _menuService.GetMenuItem(id);
+                await _menuService.DeleteMenuItem(id);
+                return Ok();
             }
             catch (ArgumentException e)
             {

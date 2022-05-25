@@ -43,6 +43,26 @@ namespace food_order_service.Data_layer.Repositories
             await _foodServiceContext.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteMenuItem(int id)
+        {
+            MenuItem? itemToDelete = await _foodServiceContext.MenuItems.Include(x => x.ItemOptions).FirstOrDefaultAsync(x => x.Id == id);
+            if (itemToDelete == null) { return false; }
+
+            if(itemToDelete.ItemOptions != null)
+            {
+                foreach(var option in itemToDelete.ItemOptions)
+                {
+                    _foodServiceContext.ItemOptions.Remove(option);
+                }
+            }
+
+            _foodServiceContext.MenuItems.Remove(itemToDelete);
+
+            await _foodServiceContext.SaveChangesAsync();
+
+            return true;
+        }
+
         private void AddNew(MenuItem menuItem)
         {
             _foodServiceContext.MenuItems.Add(menuItem);
@@ -50,7 +70,36 @@ namespace food_order_service.Data_layer.Repositories
 
         private void ReplaceExisting(MenuItem existingItem, MenuItem newItem)
         {
-            //_foodServiceContext.Entry(item).CurrentValues.
+            if (existingItem.ItemOptions == null) { existingItem.ItemOptions = new List<ItemOption>(); }
+            if (newItem.ItemOptions == null) { newItem.ItemOptions = new List<ItemOption>(); }
+
+            //update existing items and remove missing items
+            foreach (var itemOption in existingItem.ItemOptions)
+            {
+                var match = newItem.ItemOptions.FirstOrDefault(x => x.Id == itemOption.Id);
+
+                if (match != null)
+                {
+                    match.DateCreated = itemOption.DateCreated;
+                    _foodServiceContext.Entry(itemOption).CurrentValues.SetValues(match);
+                }
+                else
+                {
+                    _foodServiceContext.ItemOptions.Remove(itemOption);
+                }
+            }
+
+            //add new items
+            foreach (var itemOption in newItem.ItemOptions)
+            {
+                if (itemOption.Id == 0)
+                {
+                    existingItem.ItemOptions.Add(itemOption);
+                }
+            }
+
+            newItem.DateCreated = existingItem.DateCreated;
+            _foodServiceContext.Entry(existingItem).CurrentValues.SetValues(newItem);
         }
     }
 }

@@ -7,5 +7,6 @@ namespace food_order_service.Data_layer.Repositories
         Task<MenuItem?> GetById(int id);
         Task<IEnumerable<MenuItem>> GetAll();
         Task SaveMenuItem(MenuItem menuItem);
+        Task<bool> DeleteMenuItem(int id);
     }
 }

@@ -19,7 +19,7 @@ namespace food_order_service.Services
 
             if (result == null)
             {
-                throw new ArgumentException($"Could not find menu item with Id '{id}'");
+                throw new ArgumentException($"Could not find menu item with Id '{id}'.");
             }
 
             return result;
@@ -50,6 +50,7 @@ namespace food_order_service.Services
                 {
                     entity.ItemOptions.Add(new ItemOption()
                     {
+                        Id = item.ItemOptionId,
                         Name = item.Name,
                         IncludedByDefault = item.IncludedByDefault,
                         AdditionalCost = item.AdditionalCost
@@ -58,6 +59,14 @@ namespace food_order_service.Services
             }
 
             await _menuRepository.SaveMenuItem(entity);
+        }
+
+        public async Task DeleteMenuItem(int id)
+        {
+            if (!await _menuRepository.DeleteMenuItem(id))
+            {
+                throw new ArgumentException($"Could not delete menu item with Id '{id}' because it does not exist.");
+            }
         }
     }
 }
