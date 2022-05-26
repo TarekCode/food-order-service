@@ -5,6 +5,7 @@
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
     }
 }

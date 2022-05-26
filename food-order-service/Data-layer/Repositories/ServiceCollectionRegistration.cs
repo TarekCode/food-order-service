@@ -5,6 +5,7 @@
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }

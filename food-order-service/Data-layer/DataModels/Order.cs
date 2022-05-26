@@ -10,6 +10,9 @@ namespace food_order_service.Data_layer.DataModels
         [MaxLength(24)]
         [MinLength(7)]
         public string PhoneNumber { get; set; } = string.Empty;
+        [MaxLength(12)]
+        [MinLength(3)]
+        public string OrderStatus { get; set; } = string.Empty;
         public ICollection<OrderItem>? OrderItems { get; set; }
 
         public decimal OrderTotal
@@ -26,5 +29,12 @@ namespace food_order_service.Data_layer.DataModels
 
             private set { }
         }
+    }
+
+    public struct OrderStatusOptions
+    {
+        public static string New = "New";
+        public static string Completed = "Completed";
+        public static string Cancelled = "Cancelled";
     }
 }
