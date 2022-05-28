@@ -9,6 +9,7 @@ namespace food_order_service.Data_layer.DataModels
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
+        public TimeSpan PreparationTime { get; set; }
         public ICollection<ItemOption>? ItemOptions { get; set; }
     }
 }

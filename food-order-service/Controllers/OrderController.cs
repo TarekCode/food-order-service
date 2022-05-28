@@ -1,9 +1,11 @@
-﻿using food_order_service.Services;
+﻿using food_order_service.Models;
+using food_order_service.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace food_order_service.Controllers
 {
     [ApiController]
+    [Route("[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
@@ -15,9 +17,10 @@ namespace food_order_service.Controllers
             _orderService = orderService;
         }
 
-        //public async Task AddNewOrder()
-        //{
+        [HttpPost]
+        public async Task AddNewOrder(OrderRequest orderRequest)
+        {
 
-        //}
+        }
     }
 }

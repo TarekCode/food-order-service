@@ -9,7 +9,9 @@ namespace food_order_service.Models
         [StringLength(128, MinimumLength = 3)]
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        [Range(0, 1000)]
+        [Range(0, 60)]
+        public short PreparationMinutes { get; set; }
+        [Range(0, 2000)]
         public decimal Price { get; set; }
         public IEnumerable<ItemOptionRequest> ItemOptions { get; set; } = Enumerable.Empty<ItemOptionRequest>();
     }

@@ -39,6 +39,7 @@ namespace food_order_service.Services
                 Id = menuItemRequest.MenuItemId,
                 Title = menuItemRequest.Title,
                 Price = menuItemRequest.Price,
+                PreparationTime = new TimeSpan(0, menuItemRequest.PreparationMinutes, 0),
                 Description = menuItemRequest.Description
             };
 
