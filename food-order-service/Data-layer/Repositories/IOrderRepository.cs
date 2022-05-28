@@ -6,5 +6,6 @@ namespace food_order_service.Data_layer.Repositories
     {
         Task SaveNewOrder(Order order);
         Task<IEnumerable<Order>> GetOrders(string? status = null);
+        Task<Order?> GetOrder(int id);
     }
 }

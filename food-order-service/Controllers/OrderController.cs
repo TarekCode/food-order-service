@@ -20,7 +20,7 @@ namespace food_order_service.Controllers
         [HttpPost]
         public async Task AddNewOrder(OrderRequest orderRequest)
         {
-
+            await _orderService.CreateNewOrder(orderRequest);
         }
     }
 }

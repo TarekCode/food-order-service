@@ -1,6 +1,8 @@
 ﻿using food_order_service.Data_layer.DataModels;
 using Microsoft.EntityFrameworkCore;
 
+#nullable disable warnings
+
 namespace food_order_service.Data_layer.Repositories
 {
     public class OrderRepository : IOrderRepository
@@ -10,6 +12,16 @@ namespace food_order_service.Data_layer.Repositories
         public OrderRepository(FoodServiceContext foodServiceContext)
         {
             _foodServiceContext = foodServiceContext;
+        }
+
+        public async Task<Order?> GetOrder(int id)
+        {
+            Order? item = await _foodServiceContext.Orders.AsNoTracking()
+                .Include(x => x.OrderItems)
+                .ThenInclude(x => x.ItemModifications)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return item;
         }
 
         public async Task SaveNewOrder(Order order)
