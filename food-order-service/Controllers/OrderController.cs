@@ -22,9 +22,9 @@ namespace food_order_service.Controllers
         {
             try
             {
-                await _orderService.CreateNewOrder(orderRequest);
+                int id = await _orderService.CreateNewOrder(orderRequest);
 
-                return StatusCode(StatusCodes.Status201Created);
+                return Created("", new { OrderId = id });
             }
             catch (ArgumentException e)
             {

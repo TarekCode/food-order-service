@@ -17,7 +17,7 @@ namespace food_order_service.Services
             _orderCostCalculator = orderCostCalculator;
         }
 
-        public async Task CreateNewOrder(OrderRequest orderRequest)
+        public async Task<int> CreateNewOrder(OrderRequest orderRequest)
         {
             if (orderRequest.OrderItems.Count == 0)
             {
@@ -36,6 +36,8 @@ namespace food_order_service.Services
 
             await _orderCostCalculator.CalculateCost(order);
             await _orderRepository.SaveNewOrder(order);
+
+            return order.Id;
         }
 
         private void MapOrderItems(ICollection<OrderItemRequest> orderItemRequests, ICollection<OrderItem> orderItems)

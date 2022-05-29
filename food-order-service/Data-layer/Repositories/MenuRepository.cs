@@ -15,14 +15,16 @@ namespace food_order_service.Data_layer.Repositories
         public async Task<MenuItem?> GetById(int id)
         {
             MenuItem? item = await _foodServiceContext.MenuItems.AsNoTracking()
-                .Include(x => x.ItemOptions).FirstOrDefaultAsync(x => x.Id == id);
+                .Include(x => x.ItemOptions).FirstOrDefaultAsync(x => x.Id == id && !x.Deleted);
 
             return item;
         }
 
         public async Task<IEnumerable<MenuItem>> GetAll()
         {
-            var item = await _foodServiceContext.MenuItems.AsNoTracking().Include(x => x.ItemOptions).ToListAsync();
+            var item = await _foodServiceContext.MenuItems.AsNoTracking()
+                .Where(x => !x.Deleted)
+                .Include(x => x.ItemOptions).ToListAsync();
 
             return item;
         }
@@ -48,15 +50,7 @@ namespace food_order_service.Data_layer.Repositories
             MenuItem? itemToDelete = await _foodServiceContext.MenuItems.Include(x => x.ItemOptions).FirstOrDefaultAsync(x => x.Id == id);
             if (itemToDelete == null) { return false; }
 
-            if(itemToDelete.ItemOptions != null)
-            {
-                foreach(var option in itemToDelete.ItemOptions)
-                {
-                    _foodServiceContext.ItemOptions.Remove(option);
-                }
-            }
-
-            _foodServiceContext.MenuItems.Remove(itemToDelete);
+            itemToDelete.Deleted = true;
 
             await _foodServiceContext.SaveChangesAsync();
 

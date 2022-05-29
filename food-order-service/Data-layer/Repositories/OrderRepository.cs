@@ -24,7 +24,7 @@ namespace food_order_service.Data_layer.Repositories
             return item;
         }
 
-        public async Task SaveNewOrder(Order order)
+        public async Task<int> SaveNewOrder(Order order)
         {
             foreach(var orderItem in order.OrderItems)
             {
@@ -35,6 +35,8 @@ namespace food_order_service.Data_layer.Repositories
             _foodServiceContext.Orders.Add(order);
 
             await _foodServiceContext.SaveChangesAsync();
+
+            return order.Id;
         }
 
         public async Task<IEnumerable<Order>> GetOrders(string? status = null)

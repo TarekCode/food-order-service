@@ -4,6 +4,6 @@ namespace food_order_service.Services
 {
     public interface IOrderService
     {
-        Task CreateNewOrder(OrderRequest orderRequest);
+        Task<int> CreateNewOrder(OrderRequest orderRequest);
     }
 }
