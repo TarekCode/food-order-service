@@ -18,9 +18,24 @@ namespace food_order_service.Controllers
         }
 
         [HttpPost]
-        public async Task AddNewOrder(OrderRequest orderRequest)
+        public async Task<ActionResult> AddNewOrder(OrderRequest orderRequest)
         {
-            await _orderService.CreateNewOrder(orderRequest);
+            try
+            {
+                await _orderService.CreateNewOrder(orderRequest);
+
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogWarning(e.ToString());
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return StatusCode(500);
+            }
         }
     }
 }

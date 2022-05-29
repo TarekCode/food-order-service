@@ -6,6 +6,7 @@
         {
             services.AddScoped<IMenuService, MenuService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderCostCalculator, OrderCostCalculator>();
         }
     }
 }

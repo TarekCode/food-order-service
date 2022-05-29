@@ -14,21 +14,7 @@ namespace food_order_service.Data_layer.DataModels
         [MinLength(3)]
         public string OrderStatus { get; set; } = string.Empty;
         public ICollection<OrderItem>? OrderItems { get; set; }
-
-        public decimal OrderTotal
-        {
-            get
-            {
-                if (OrderItems != null)
-                {
-                    return OrderItems.Sum(x => x.Cost);
-                }
-
-                return 0;
-            }
-
-            private set { }
-        }
+        public decimal OrderTotal { get; set; }
     }
 
     public struct OrderStatusOptions

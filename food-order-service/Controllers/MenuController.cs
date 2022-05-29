@@ -29,7 +29,7 @@ namespace food_order_service.Controllers
             catch (ArgumentException e)
             {
                 _logger.LogWarning(e.ToString());
-                return NotFound();
+                return NotFound(e.Message);
             }
             catch (Exception e)
             {
@@ -81,7 +81,7 @@ namespace food_order_service.Controllers
             catch (ArgumentException e)
             {
                 _logger.LogWarning(e.ToString());
-                return NotFound();
+                return NotFound(e.Message);
             }
             catch (Exception e)
             {

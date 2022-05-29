@@ -8,11 +8,13 @@ namespace food_order_service.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMenuRepository _menuRepository;
+        private readonly IOrderCostCalculator _orderCostCalculator;
 
-        public OrderService(IOrderRepository orderRepository, IMenuRepository menuRepository)
+        public OrderService(IOrderRepository orderRepository, IMenuRepository menuRepository, IOrderCostCalculator orderCostCalculator)
         {
             _orderRepository = orderRepository;
             _menuRepository = menuRepository;
+            _orderCostCalculator = orderCostCalculator;
         }
 
         public async Task CreateNewOrder(OrderRequest orderRequest)
@@ -30,34 +32,27 @@ namespace food_order_service.Services
                 OrderItems = new List<OrderItem>()
             };
 
-            await MapOrderItems(orderRequest.OrderItems, order.OrderItems);
+            MapOrderItems(orderRequest.OrderItems, order.OrderItems);
 
+            await _orderCostCalculator.CalculateCost(order);
             await _orderRepository.SaveNewOrder(order);
         }
 
-        private async Task MapOrderItems(ICollection<OrderItemRequest> orderItemRequests, ICollection<OrderItem> orderItems)
+        private void MapOrderItems(ICollection<OrderItemRequest> orderItemRequests, ICollection<OrderItem> orderItems)
         {
             foreach (OrderItemRequest orderItem in orderItemRequests)
             {
-                MenuItem menuItem = await GetMenuItem(orderItem.MenuItemId);
-
                 orderItems.Add(new OrderItem()
                 {
-                    MenuItemId = menuItem.Id                    
+                    MenuItemId = orderItem.MenuItemId,
+                    ItemModifications = orderItem.Modifications?
+                    .Select(x => new ItemModification()
+                    {
+                        ItemOptionId = x.ItemOptionId,
+                        ChangeType = x.ChangeType
+                    }).ToList()
                 });
             }
-        }
-
-        private async Task<MenuItem> GetMenuItem(int id)
-        {
-            var item = await _menuRepository.GetById(id);
-
-            if (item == null)
-            {
-                throw new ArgumentException($"Could not find menu item with id: {id}");
-            }
-
-            return item;
-        }
+        }        
     }
 }

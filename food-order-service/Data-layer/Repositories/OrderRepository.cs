@@ -26,6 +26,12 @@ namespace food_order_service.Data_layer.Repositories
 
         public async Task SaveNewOrder(Order order)
         {
+            foreach(var orderItem in order.OrderItems)
+            {
+                //do not save navigation property
+                orderItem.MenuItem = null;
+            }
+
             _foodServiceContext.Orders.Add(order);
 
             await _foodServiceContext.SaveChangesAsync();
