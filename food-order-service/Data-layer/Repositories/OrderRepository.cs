@@ -46,7 +46,10 @@ namespace food_order_service.Data_layer.Repositories
                 return await _foodServiceContext.Orders.AsNoTracking().ToListAsync();
             }
 
-            return await _foodServiceContext.Orders.Where(x => x.OrderStatus == status).AsNoTracking().ToListAsync();
+            return await _foodServiceContext.Orders.AsNoTracking()
+                .Include(x => x.OrderItems)
+                .ThenInclude(x => x.ItemModifications)
+                .Where(x => x.OrderStatus == status).ToListAsync();
         }
     }
 }

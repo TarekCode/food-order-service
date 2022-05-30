@@ -23,7 +23,7 @@ namespace food_order_service.Services
 
             foreach (OrderItem orderItem in order.OrderItems)
             {
-                MenuItem menuItem = await GetMenuItem(orderItem.MenuItemId);
+                MenuItem menuItem = orderItem.MenuItem ?? await GetMenuItem(orderItem.MenuItemId);
 
                 orderItem.Cost = menuItem.Price;
 

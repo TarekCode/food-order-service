@@ -18,6 +18,7 @@ namespace food_order_service.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(201)]
         public async Task<ActionResult> AddNewOrder(OrderRequest orderRequest)
         {
             try
@@ -30,6 +31,23 @@ namespace food_order_service.Controllers
             {
                 _logger.LogWarning(e.ToString());
                 return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOpenOrders()
+        {
+            try
+            {
+                var orders = await _orderService.GetOpenOrders();
+
+                return Ok(orders);
             }
             catch (Exception e)
             {

@@ -7,13 +7,13 @@ namespace food_order_service.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IMenuRepository _menuRepository;
+        private readonly IOrderResponseBuilder _openOrderBuilder;
         private readonly IOrderCostCalculator _orderCostCalculator;
 
-        public OrderService(IOrderRepository orderRepository, IMenuRepository menuRepository, IOrderCostCalculator orderCostCalculator)
+        public OrderService(IOrderRepository orderRepository, IOrderResponseBuilder openOrderBuilder, IOrderCostCalculator orderCostCalculator)
         {
             _orderRepository = orderRepository;
-            _menuRepository = menuRepository;
+            _openOrderBuilder = openOrderBuilder;
             _orderCostCalculator = orderCostCalculator;
         }
 
@@ -40,6 +40,20 @@ namespace food_order_service.Services
             return order.Id;
         }
 
+        public async Task<IEnumerable<OrderResponse>> GetOpenOrders()
+        {
+            List<OrderResponse> orderResponses = new List<OrderResponse>();
+
+            var orders = await _orderRepository.GetOrders(OrderStatusOptions.New);
+
+            foreach(var order in orders)
+            {
+                orderResponses.Add(await _openOrderBuilder.BuildOrderData(order));
+            }
+
+            return orderResponses;
+        }
+
         private void MapOrderItems(ICollection<OrderItemRequest> orderItemRequests, ICollection<OrderItem> orderItems)
         {
             foreach (OrderItemRequest orderItem in orderItemRequests)
@@ -55,6 +69,6 @@ namespace food_order_service.Services
                     }).ToList()
                 });
             }
-        }        
+        }
     }
 }
