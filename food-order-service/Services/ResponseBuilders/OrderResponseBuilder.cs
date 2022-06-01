@@ -2,7 +2,7 @@
 using food_order_service.Data_layer.Repositories;
 using food_order_service.Models;
 
-namespace food_order_service.Services
+namespace food_order_service.Services.ResponseBuilders
 {
     public class OrderResponseBuilder : IOrderResponseBuilder
     {
@@ -13,7 +13,7 @@ namespace food_order_service.Services
             _menuRepository = menuRepository;
         }
 
-        public async Task<OrderResponse> BuildOrderData(Order order)
+        public async Task<OrderResponse> BuildOrderResponse(Order order)
         {
             List<OrderItemResponse> orderItems = new List<OrderItemResponse>();
 

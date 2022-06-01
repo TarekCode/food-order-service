@@ -49,6 +49,11 @@ namespace food_order_service.Controllers
 
                 return Ok(orders);
             }
+            catch (ArgumentException e)
+            {
+                _logger.LogWarning(e.ToString());
+                return NotFound(e.Message);
+            }
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());

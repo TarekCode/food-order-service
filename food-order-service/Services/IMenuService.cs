@@ -5,8 +5,8 @@ namespace food_order_service.Services
 {
     public interface IMenuService
     {
-        Task<MenuItem> GetMenuItem(int id);
-        Task<IEnumerable<MenuItem>> GetAllMenuItems();
+        Task<MenuItemResponse> GetMenuItem(int id);
+        Task<IEnumerable<MenuItemResponse>> GetAllMenuItems();
         Task AddOrUpdateMenuItem(MenuItemRequest menuItemRequest);
         Task DeleteMenuItem(int id);
     }

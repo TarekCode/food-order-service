@@ -7,13 +7,15 @@ namespace food_order_service.Services
     public class MenuService : IMenuService
     {
         private readonly IMenuRepository _menuRepository;
+        private readonly IMenuResponseBuilder _menuResponseBuilder;
 
-        public MenuService(IMenuRepository menuRepository)
+        public MenuService(IMenuRepository menuRepository, IMenuResponseBuilder menuResponseBuilder)
         {
             _menuRepository = menuRepository;
+            _menuResponseBuilder = menuResponseBuilder;
         }
 
-        public async Task<MenuItem> GetMenuItem(int id)
+        public async Task<MenuItemResponse> GetMenuItem(int id)
         {
             MenuItem? result = await _menuRepository.GetById(id);
 
@@ -22,14 +24,16 @@ namespace food_order_service.Services
                 throw new ArgumentException($"Could not find menu item with Id '{id}'.");
             }
 
-            return result;
+            return _menuResponseBuilder.BuildMenuResponse(result);
         }
 
-        public async Task<IEnumerable<MenuItem>> GetAllMenuItems()
+        public async Task<IEnumerable<MenuItemResponse>> GetAllMenuItems()
         {
             var result = await _menuRepository.GetAll();
 
-            return result ?? Enumerable.Empty<MenuItem>();
+            var mappedResult = result.Select(x => _menuResponseBuilder.BuildMenuResponse(x));
+
+            return mappedResult ?? Enumerable.Empty<MenuItemResponse>();
         }
 
         public async Task AddOrUpdateMenuItem(MenuItemRequest menuItemRequest)

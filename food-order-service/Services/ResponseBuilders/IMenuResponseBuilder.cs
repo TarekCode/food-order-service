@@ -3,8 +3,8 @@ using food_order_service.Models;
 
 namespace food_order_service.Services
 {
-    public interface IOrderResponseBuilder
+    public interface IMenuResponseBuilder
     {
-        Task<OrderResponse> BuildOrderData(Order order);
+        MenuItemResponse BuildMenuResponse(MenuItem menuItem);
     }
 }

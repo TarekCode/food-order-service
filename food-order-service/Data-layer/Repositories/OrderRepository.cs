@@ -26,7 +26,7 @@ namespace food_order_service.Data_layer.Repositories
 
         public async Task<int> SaveNewOrder(Order order)
         {
-            foreach(var orderItem in order.OrderItems)
+            foreach (var orderItem in order.OrderItems)
             {
                 //do not save navigation property
                 orderItem.MenuItem = null;
@@ -50,6 +50,18 @@ namespace food_order_service.Data_layer.Repositories
                 .Include(x => x.OrderItems)
                 .ThenInclude(x => x.ItemModifications)
                 .Where(x => x.OrderStatus == status).ToListAsync();
+        }
+
+        public async Task<bool> SetOrderStatus(int orderId, string status)
+        {
+            var order = await _foodServiceContext.Orders.FindAsync(orderId);
+            if (order == null) { return false; }
+
+            order.OrderStatus = status;
+
+            await _foodServiceContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

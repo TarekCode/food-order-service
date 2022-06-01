@@ -48,7 +48,7 @@ namespace food_order_service.Services
 
             foreach(var order in orders)
             {
-                orderResponses.Add(await _openOrderBuilder.BuildOrderData(order));
+                orderResponses.Add(await _openOrderBuilder.BuildOrderResponse(order));
             }
 
             return orderResponses;

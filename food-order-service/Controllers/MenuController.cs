@@ -20,7 +20,7 @@ namespace food_order_service.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<MenuItem>> GetItem(int id)
+        public async Task<ActionResult<MenuItemResponse>> GetItem(int id)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace food_order_service.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<MenuItem>>> GetAll()
+        public async Task<ActionResult<IEnumerable<MenuItemResponse>>> GetAll()
         {
             try
             {
@@ -71,6 +71,7 @@ namespace food_order_service.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult> DeleteItem(int id)
         {
             try
