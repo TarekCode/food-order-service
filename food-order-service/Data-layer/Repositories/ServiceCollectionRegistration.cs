@@ -6,6 +6,7 @@
         {
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ISystemConfigurationRepository, SystemConfigurationRepository>();
         }
     }
 }

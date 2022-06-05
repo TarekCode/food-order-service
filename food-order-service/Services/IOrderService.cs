@@ -7,5 +7,6 @@ namespace food_order_service.Services
     {
         Task<int> CreateNewOrder(OrderRequest orderRequest);
         Task<IEnumerable<OrderResponse>> GetOpenOrders();
+        Task UpdateOrderStatus(int orderId, string status);
     }
 }

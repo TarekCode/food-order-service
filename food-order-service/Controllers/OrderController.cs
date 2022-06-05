@@ -60,5 +60,26 @@ namespace food_order_service.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPatch("{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult> UpdateOrderStatus(int id, [FromQuery] string status = "")
+        {
+            try
+            {
+                await _orderService.UpdateOrderStatus(id, status);
+                return Ok();
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogWarning(e.ToString());
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return StatusCode(500);
+            }
+        }
     }
 }

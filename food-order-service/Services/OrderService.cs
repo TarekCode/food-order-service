@@ -46,12 +46,22 @@ namespace food_order_service.Services
 
             var orders = await _orderRepository.GetOrders(OrderStatusOptions.New);
 
-            foreach(var order in orders)
+            foreach (var order in orders)
             {
                 orderResponses.Add(await _openOrderBuilder.BuildOrderResponse(order));
             }
 
             return orderResponses;
+        }
+
+        public async Task UpdateOrderStatus(int orderId, string status)
+        {
+            ValidateStatus(status);
+
+            if (!await _orderRepository.SetOrderStatus(orderId, status))
+            {
+                throw new ArgumentException("could not find order with id " + orderId);
+            }
         }
 
         private void MapOrderItems(ICollection<OrderItemRequest> orderItemRequests, ICollection<OrderItem> orderItems)
@@ -68,6 +78,16 @@ namespace food_order_service.Services
                         ChangeType = x.ChangeType
                     }).ToList()
                 });
+            }
+        }
+
+        private void ValidateStatus(string status)
+        {
+            if (status != OrderStatusOptions.New
+                && status != OrderStatusOptions.Cancelled
+                && status != OrderStatusOptions.Completed)
+            {
+                throw new BadHttpRequestException("invalid order status");
             }
         }
     }
