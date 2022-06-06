@@ -11,8 +11,8 @@
 
     public record ItemOptionResponse
     {
-        public string Name { get; set; } = string.Empty;
-        public bool IncludedByDefault { get; set; }
-        public decimal AdditionalCost { get; set; }
+        public string Name { get; init; } = string.Empty;
+        public bool IncludedByDefault { get; init; }
+        public decimal AdditionalCost { get; init; }
     }
 }

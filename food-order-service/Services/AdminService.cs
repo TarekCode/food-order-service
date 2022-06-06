@@ -1,4 +1,5 @@
-﻿using food_order_service.Data_layer.Repositories;
+﻿using food_order_service.Data_layer.DataModels;
+using food_order_service.Data_layer.Repositories;
 
 namespace food_order_service.Services
 {
@@ -14,6 +15,11 @@ namespace food_order_service.Services
         public async Task AddNewConfigurationValue(string key, string value)
         {
             await _systemConfigurationRepository.AddNewConfig(key, value);
+        }
+
+        public async Task<IEnumerable<ConfigOption>> GetSystemConfigurationValues()
+        {
+            return await _systemConfigurationRepository.GetAll();
         }
     }
 }
