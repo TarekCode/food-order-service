@@ -6,10 +6,12 @@ namespace food_order_service.Services
     public class OrderCostCalculator : IOrderCostCalculator
     {
         private readonly IMenuRepository _menuRepository;
+        private readonly ISystemConfiguration _systemConfiguration;
 
-        public OrderCostCalculator(IMenuRepository menuRepository)
+        public OrderCostCalculator(IMenuRepository menuRepository, ISystemConfiguration systemConfiguration)
         {
             _menuRepository = menuRepository;
+            _systemConfiguration = systemConfiguration;
         }
 
         public async Task CalculateCost(Order order)

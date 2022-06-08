@@ -14,6 +14,8 @@ namespace food_order_service.Services
 
             services.AddScoped<IOrderResponseBuilder, OrderResponseBuilder>();
             services.AddScoped<IMenuResponseBuilder, MenuResponseBuilder>();
+
+            services.AddScoped<ISystemConfiguration, SystemConfiguration>();
         }
     }
 }

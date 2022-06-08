@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using food_order_service.Data_layer;
@@ -11,9 +12,10 @@ using food_order_service.Data_layer;
 namespace food_order_service.Migrations
 {
     [DbContext(typeof(FoodServiceContext))]
-    partial class FoodServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20220607233639_unique")]
+    partial class unique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace food_order_service.Migrations
                     b.HasIndex("Key")
                         .IsUnique();
 
-                    b.ToTable("SystemConfiguration", (string)null);
+                    b.ToTable("SystemConfiguration");
                 });
 
             modelBuilder.Entity("food_order_service.Data_layer.DataModels.ItemModification", b =>
@@ -88,7 +90,7 @@ namespace food_order_service.Migrations
 
                     b.HasIndex("OrderItemId");
 
-                    b.ToTable("ItemModifications", (string)null);
+                    b.ToTable("ItemModifications");
                 });
 
             modelBuilder.Entity("food_order_service.Data_layer.DataModels.ItemOption", b =>
@@ -123,7 +125,7 @@ namespace food_order_service.Migrations
 
                     b.HasIndex("MenuItemId");
 
-                    b.ToTable("ItemOptions", (string)null);
+                    b.ToTable("ItemOptions");
                 });
 
             modelBuilder.Entity("food_order_service.Data_layer.DataModels.MenuItem", b =>
@@ -160,7 +162,7 @@ namespace food_order_service.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("food_order_service.Data_layer.DataModels.Order", b =>
@@ -197,7 +199,7 @@ namespace food_order_service.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("food_order_service.Data_layer.DataModels.OrderItem", b =>
@@ -229,7 +231,7 @@ namespace food_order_service.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("food_order_service.Data_layer.DataModels.ItemModification", b =>
