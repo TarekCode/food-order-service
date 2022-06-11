@@ -19,7 +19,7 @@ builder.Services.AddDbContext<FoodServiceContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Configuration["USE_SWAGGER"]?.ToLower() == "true")
 {
     app.UseSwagger();
     app.UseSwaggerUI();
