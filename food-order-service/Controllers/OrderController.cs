@@ -10,11 +10,13 @@ namespace food_order_service.Controllers
     {
         private readonly ILogger<OrderController> _logger;
         private readonly IOrderService _orderService;
+        private readonly ISystemConfiguration _systemConfiguration;
 
-        public OrderController(ILogger<OrderController> logger, IOrderService orderService)
+        public OrderController(ILogger<OrderController> logger, IOrderService orderService, ISystemConfiguration systemConfiguration)
         {
             _logger = logger;
             _orderService = orderService;
+            _systemConfiguration = systemConfiguration;
         }
 
         [HttpPost]
@@ -23,6 +25,11 @@ namespace food_order_service.Controllers
         {
             try
             {
+                if (!await _systemConfiguration.AcceptingOrders())
+                {
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable, "Not accepting orders at the moment.");
+                }
+
                 int id = await _orderService.CreateNewOrder(orderRequest);
 
                 return Created("", new { OrderId = id });
@@ -35,7 +42,7 @@ namespace food_order_service.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -57,7 +64,7 @@ namespace food_order_service.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -78,7 +85,7 @@ namespace food_order_service.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

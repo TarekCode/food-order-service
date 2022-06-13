@@ -18,15 +18,15 @@ namespace food_order_service.Controllers
             _logger = logger;
         }
 
-        [HttpPost("config")]
-        [ProducesResponseType(201)]
-        public async Task<ActionResult> AddNew([FromBody] SysConfigRequest sysConfigRequest)
+        [HttpPut("config")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult> AddOrUpdate([FromBody] SysConfigRequest sysConfigRequest)
         {
             try
             {
-                await _adminService.AddNewConfigurationValue(sysConfigRequest.ConfigName, sysConfigRequest.ConfigValue);
+                await _adminService.SaveConfigurationValue(sysConfigRequest.ConfigName, sysConfigRequest.ConfigValue);
 
-                return StatusCode(201);
+                return StatusCode(200);
             }
             catch (ArgumentException e)
             {

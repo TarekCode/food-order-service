@@ -4,7 +4,7 @@ namespace food_order_service.Services
 {
     public interface IAdminService
     {
-        Task AddNewConfigurationValue(string key, string value);
+        Task SaveConfigurationValue(string key, string value);
         Task<IEnumerable<ConfigOption>> GetSystemConfigurationValues();
     }
 }

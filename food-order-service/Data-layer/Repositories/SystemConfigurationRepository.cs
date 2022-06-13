@@ -12,31 +12,24 @@ namespace food_order_service.Data_layer.Repositories
             _foodServiceContext = foodServiceContext;
         }
 
-        public async Task AddNewConfig(string key, string value)
+        public async Task SaveConfig(string key, string value)
         {
-            _foodServiceContext.SystemConfiguration.Add(new ConfigOption()
+            var config = await _foodServiceContext.SystemConfiguration.Where(x => x.Key == key).FirstOrDefaultAsync();
+
+            if (config == null)
             {
-                Key = key,
-                Value = value
-            });
-
-            await _foodServiceContext.SaveChangesAsync();
-        }
-
-        public async Task<bool> UpdateConfig(int id, string key, string value)
-        {
-            var config = await _foodServiceContext.SystemConfiguration.FindAsync(id);
-
-            if (config != null)
+                _foodServiceContext.SystemConfiguration.Add(new ConfigOption()
+                {
+                    Key = key,
+                    Value = value
+                });
+            }
+            else
             {
-                config.Key = key;
                 config.Value = value;
-
-                await _foodServiceContext.SaveChangesAsync();
-                return true;
             }
 
-            return false;
+            await _foodServiceContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<ConfigOption>> GetAll()

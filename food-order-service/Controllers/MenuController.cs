@@ -1,5 +1,4 @@
-﻿using food_order_service.Data_layer.DataModels;
-using food_order_service.Models;
+﻿using food_order_service.Models;
 using food_order_service.Services;
 using Microsoft.AspNetCore.Mvc;
 

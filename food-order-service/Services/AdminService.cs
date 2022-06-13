@@ -12,9 +12,9 @@ namespace food_order_service.Services
             _systemConfigurationRepository = systemConfigurationRepository;
         }
 
-        public async Task AddNewConfigurationValue(string key, string value)
+        public async Task SaveConfigurationValue(string key, string value)
         {
-            await _systemConfigurationRepository.AddNewConfig(key, value);
+            await _systemConfigurationRepository.SaveConfig(key, value);
         }
 
         public async Task<IEnumerable<ConfigOption>> GetSystemConfigurationValues()
