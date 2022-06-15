@@ -17,7 +17,7 @@ namespace food_order_service.Services
 
         public async Task<decimal> TaxRate()
         {
-            return decimal.Parse(await GetConfigValue("tax_rate"));
+            return decimal.Parse(await GetConfigValue("tax_rate")) / 100;
         }
 
         public async Task<bool> AcceptingOrders()

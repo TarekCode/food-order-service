@@ -43,6 +43,8 @@ namespace food_order_service.Services.ResponseBuilders
                 OrderId = order.Id,
                 CustomerName = order.CustomerName,
                 PhoneNumber = order.PhoneNumber,
+                BasePrice = order.BasePrice,
+                Tax = order.Tax,
                 OrderTotal = order.OrderTotal,
                 OrderItems = orderItems
             };

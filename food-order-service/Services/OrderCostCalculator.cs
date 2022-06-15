@@ -16,7 +16,7 @@ namespace food_order_service.Services
 
         public async Task CalculateCost(Order order)
         {
-            order.OrderTotal = 0;
+            order.BasePrice = 0;
 
             if (order.OrderItems == null)
             {
@@ -51,8 +51,11 @@ namespace food_order_service.Services
                     }
                 }
 
-                order.OrderTotal += orderItem.Cost;
+                order.BasePrice += orderItem.Cost;
             }
+
+            order.Tax = Math.Round(order.BasePrice * await _systemConfiguration.TaxRate(), 2);
+            order.OrderTotal = Math.Round(order.BasePrice + order.Tax, 2);
         }
 
         private async Task<MenuItem> GetMenuItem(int id)

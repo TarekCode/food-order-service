@@ -14,6 +14,8 @@ namespace food_order_service.Data_layer.DataModels
         [MinLength(3)]
         public string OrderStatus { get; set; } = string.Empty;
         public ICollection<OrderItem>? OrderItems { get; set; }
+        public decimal BasePrice { get; set; }
+        public decimal Tax { get; set; }
         public decimal OrderTotal { get; set; }
     }
 

@@ -5,6 +5,8 @@
         public int OrderId { get; init; }
         public string CustomerName { get; init; } = string.Empty;
         public string PhoneNumber { get; init; } = string.Empty;
+        public decimal BasePrice { get; set; }
+        public decimal Tax { get; set; }
         public decimal OrderTotal { get; init; }
         public IEnumerable<OrderItemResponse> OrderItems { get; init; } = Enumerable.Empty<OrderItemResponse>();
     }
